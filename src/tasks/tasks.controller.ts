@@ -33,7 +33,7 @@ export class TasksController {
   }
 
   @Patch('/:id/status')
-  updateTask(@Param('id') id:string, @Param('status') status:TaskStatus): Task{
+  updateTask(@Param('id') id:string, @Body('status') status:TaskStatus): Task{
     return this.taskServices.updateTaskStatus(id,status);
   }
 
