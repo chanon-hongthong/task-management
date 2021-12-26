@@ -84,8 +84,20 @@ export class TasksService {
   //   if(!task){
   //     throw new NotFoundException(`Task with ID "${id}" not found`);
   //   }
+  //   task.status = status;
   //   return task;
   // }
+  async updateTaskStatus(id: string, status: TaskStatus): Promise<Task>{
+    
+    const task = await this.getTaskById(id);
+    if(!task){
+      throw new NotFoundException(`Task with ID "${id}" not found`);
+    }
+    task.status = status;
+    await this.taskRepository.save(task);
+
+    return task;
+  }
 
   // deleteTaskById(id: string): void{
   //   const task = this.getTaskById(id);
@@ -94,4 +106,11 @@ export class TasksService {
   //   }
   //   this.tasks = this.tasks.filter((task) => task.id !== id);
   // }
+  async deleteTaskById(id: string): Promise<void>{
+    const result = await this.taskRepository.delete(id);
+    if(result.affected === 0){
+      throw new NotFoundException(`Task with ID "${id}" not found`);
+    }
+
+  }
 }
