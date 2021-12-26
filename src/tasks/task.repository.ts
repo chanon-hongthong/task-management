@@ -1,3 +1,4 @@
+import { NotFoundException } from '@nestjs/common';
 import { EntityRepository, Repository } from 'typeorm';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksWithFilterDto } from './dto/get-tasks-filter.dto';
@@ -25,6 +26,14 @@ export class TaskRepository extends Repository<Task> {
     return tasks;
   }
 
+  async getTaskById(id: string): Promise<Task> {
+    const task = await this.findOne(id);
+    if (!task) {
+      throw new NotFoundException(`Task with ID "${id}" not found`);
+    }
+    return task;
+  }
+
   async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
     const { title, description } = createTaskDto;
     const task = this.create({
@@ -34,5 +43,22 @@ export class TaskRepository extends Repository<Task> {
     });
     await this.save(task);
     return task;
+  }
+
+  async updateTaskStatus(id: string, status: TaskStatus): Promise<Task> {
+    const task = await this.getTaskById(id);
+    if (!task) {
+      throw new NotFoundException(`Task with ID "${id}" not found`);
+    }
+    task.status = status;
+    await this.save(task);
+    return task;
+  }
+
+  async deleteTaskById(id: string): Promise<void>{
+    const result = await this.delete(id);
+    if(result.affected === 0){
+      throw new NotFoundException(`Task with ID "${id}" not found`);
+    }
   }
 }

@@ -20,7 +20,7 @@ export class TasksService {
   // getAllTasks(): Task[] {
   //   return this.tasks;
   // }
-  async getTasks(filterDto: GetTasksWithFilterDto): Promise<Task[]>{
+  getTasks(filterDto: GetTasksWithFilterDto): Promise<Task[]>{
     return this.taskRepository.getTasks(filterDto);
   }
 
@@ -31,13 +31,10 @@ export class TasksService {
   //   }
   //   return task;
   // }
-  async getTaskById(id: string): Promise<Task>{
-    const task = await this.taskRepository.findOne(id);
-    if(!task){
-      throw new NotFoundException(`Task with ID "${id}" not found`);
-    }
-    return task;
+  getTaskById(id: string): Promise<Task>{
+    return this.taskRepository.getTaskById(id);
   }
+  
 
   // getTasksWithFilters(filterDto: GetTasksWithFilterDto): Task[]{
   //   const { status, search } = filterDto;
@@ -71,29 +68,14 @@ export class TasksService {
   //   return task;
   // }
 
-  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+  createTask(createTaskDto: CreateTaskDto): Promise<Task> {
     return this.taskRepository.createTask(createTaskDto);
   }
 
-  // updateTaskStatus(id: string, status: TaskStatus){
-  //   const task = this.getTaskById(id);
-  //   if(!task){
-  //     throw new NotFoundException(`Task with ID "${id}" not found`);
-  //   }
-  //   task.status = status;
-  //   return task;
-  // }
-  async updateTaskStatus(id: string, status: TaskStatus): Promise<Task>{
-    
-    const task = await this.getTaskById(id);
-    if(!task){
-      throw new NotFoundException(`Task with ID "${id}" not found`);
-    }
-    task.status = status;
-    await this.taskRepository.save(task);
-
-    return task;
+  updateTaskStatus(id: string, status: TaskStatus): Promise<Task>{
+    return this.taskRepository.updateTaskStatus(id, status);
   }
+  
 
   // deleteTaskById(id: string): void{
   //   const task = this.getTaskById(id);
@@ -102,11 +84,8 @@ export class TasksService {
   //   }
   //   this.tasks = this.tasks.filter((task) => task.id !== id);
   // }
-  async deleteTaskById(id: string): Promise<void>{
-    const result = await this.taskRepository.delete(id);
-    if(result.affected === 0){
-      throw new NotFoundException(`Task with ID "${id}" not found`);
-    }
-
+  deleteTaskById(id: string): Promise<void>{
+    return this.taskRepository.deleteTaskById(id);
   }
+
 }
