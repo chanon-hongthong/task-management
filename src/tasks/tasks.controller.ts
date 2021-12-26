@@ -34,6 +34,10 @@ export class TasksController {
   //     return this.taskServices.getAllTasks();
   //   }
   // }
+  @Get()
+  getTasks(@Query() filterDto: GetTasksWithFilterDto): Promise<Task[]> {
+    return this.taskServices.getTasks(filterDto);
+  }
 
   // @Get('/:id')
   // getTaskById(@Param('id') id: string): Task{

@@ -20,6 +20,9 @@ export class TasksService {
   // getAllTasks(): Task[] {
   //   return this.tasks;
   // }
+  async getTasks(filterDto: GetTasksWithFilterDto): Promise<Task[]>{
+    return this.taskRepository.getTasks(filterDto);
+  }
 
   // getTaskById(id: string): Task{
   //   const task = this.tasks.find((task) => task.id == id);
@@ -69,14 +72,7 @@ export class TasksService {
   // }
 
   async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
-    const { title, description } = createTaskDto;
-    const task = this.taskRepository.create({
-      title,
-      description,
-      status: TaskStatus.OPEN,
-    })
-    await this.taskRepository.save(task);
-    return task;
+    return this.taskRepository.createTask(createTaskDto);
   }
 
   // updateTaskStatus(id: string, status: TaskStatus){
