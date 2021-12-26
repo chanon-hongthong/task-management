@@ -50,6 +50,11 @@ export class TasksController {
 
   // }
 
+  @Post()
+  createTask(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
+    return this.taskServices.createTask(createTaskDto);
+  }
+
   // @Patch('/:id/status')
   // updateTask(
   //   @Param('id') id:string, 
