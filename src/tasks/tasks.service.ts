@@ -4,23 +4,36 @@ import { TaskStatus } from './tasks-status.enum';
 //import { v4 as uuid } from 'uuid';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksWithFilterDto } from './dto/get-tasks-filter.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { TaskRepository } from './task.repository';
 
 @Injectable()
 export class TasksService {
-  //private tasks: Task[] = [];
 
+  //private tasks: Task[] = [];
+  constructor(
+    @InjectRepository(TaskRepository)
+    private taskRepository: TaskRepository,
+    ) {}
+  
   // getAllTasks(): Task[] {
   //   return this.tasks;
   // }
 
   // getTaskById(id: string): Task{
   //   const task = this.tasks.find((task) => task.id == id);
-
   //   if(!task){
   //     throw new NotFoundException(`Task with ID "${id}" not found`);
   //   }
   //   return task;
   // }
+  async getTaskById(id: string): Promise<Task>{
+    const task = await this.taskRepository.findOne(id);
+    if(!task){
+      throw new NotFoundException(`Task with ID "${id}" not found`);
+    }
+    return task;
+  }
 
   // getTasksWithFilters(filterDto: GetTasksWithFilterDto): Task[]{
   //   const { status, search } = filterDto;
