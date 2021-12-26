@@ -35,8 +35,15 @@ $ npm install
 ## Install Database via Docker <POSTGRES DATABASE> 
 
 $ docker
-$ docker run --name postgres-nest -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
+$ docker run --name postgres-nest -p 5432:5432 -e POSTGRES_PASSWORD=[PASSWORD] -d [USERNAME]
 $ docker container ls
+
+## Install Admin Database <DBeaver>
+
+Install DBeaver follow link ...
+
+## Connect Database with DBeaver
+Host: localhost
 
 ## Running the app
 
