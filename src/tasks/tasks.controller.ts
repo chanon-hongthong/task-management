@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestj
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksWithFilterDto } from './dto/get-tasks-filter.dto';
 import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
+import { Task } from './task.entity';
 
 //import { Task,TaskStatus } from './tasks-status.enum';
 import { TaskStatus } from './tasks-status.enum';
@@ -29,6 +30,10 @@ export class TasksController {
   // getTaskById(@Param('id') id: string): Task{
   //   return this.taskServices.getTaskById(id);
   // }
+  @Get('/:id')
+  getTaskById(@Param('id') id: string): Promise<Task>{
+    return this.taskServices.getTaskById(id);
+  }
 
   // @Post()
   // createTask(@Body() createTaskDto: CreateTaskDto): Task {
